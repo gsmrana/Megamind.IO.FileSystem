@@ -223,9 +223,12 @@ namespace Megamind.IO.FileSystem
                     if (!string.IsNullOrEmpty(Ext))
                     {
                         var ext = Ext.TrimEnd(' ');
-                        if (Attribute == (byte)EntryAttributes.Archive)
-                            fullname += "." + ext;
-                        else fullname += ext;
+                        if (!string.IsNullOrEmpty(ext))
+                        {
+                            if (Attribute == (byte)EntryAttributes.Archive)
+                                fullname += "." + ext;
+                            else fullname += ext;
+                        }
                     }
                 }
                 var idx = fullname.IndexOf('\0');
@@ -245,7 +248,7 @@ namespace Megamind.IO.FileSystem
         public int WriteDate { get; set; }
         public int StartClusterLO { get; set; }
         public int FileSize { get; set; }
-        public string FileSizeString { get => FileSystemBase.GetFormatedSizeString(FileSize); }
+        public string FileSizeString { get => FileSystemBase.GetFormatedSizeString((uint)FileSize); }
 
         // appended properties
         public int StartCluster { get; set; }
