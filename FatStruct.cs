@@ -130,7 +130,7 @@ namespace Megamind.IO.FileSystem
     {
 
         // list taken for grid view only
-        public List<MbrPartitionTable> MbrPartitionTable { get; set; } 
+        public List<MbrPartitionTable> MbrPartitionTable { get; set; }
 
         public string JumpCode { get; set; } = String.Empty;
         public string OemName { get; set; } = String.Empty;
@@ -225,9 +225,12 @@ namespace Megamind.IO.FileSystem
                         var ext = Ext.TrimEnd(' ');
                         if (!string.IsNullOrEmpty(ext))
                         {
-                            if (Attribute == (byte)EntryAttributes.Archive)
-                                fullname += "." + ext;
-                            else fullname += ext;
+                            if ((Attribute & (byte)(
+                                EntryAttributes.VolumeLabel |
+                                EntryAttributes.Directory |
+                                EntryAttributes.Device)) > 0)
+                                fullname += ext;
+                            else fullname += "." + ext;
                         }
                     }
                 }
